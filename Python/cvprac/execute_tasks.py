@@ -18,15 +18,11 @@ client = cvp_client.CvpClient()
 # client.connect([cvp1, cvp2, cvp3], cvp_user, cvp_pw)
 client.connect([cvp1], cvp_user, cvp_pw)
 
-directory = "configs"
-exists = os.path.exists(directory)
-if not exists:
-    os.makedirs(directory)
+tasks = client.api.get_tasks_by_status('Pending')
 
 
-configlets = client.api.get_configlets(start=0,end=0)
-
-for item in configlets['data']:
-    file = open(directory+'/'+item['name']+'.txt','w')
-    file.write(item['config'])
-    file.close()
+for task in tasks:
+    taskId = task['workOrderId']
+    hostname = task['workOrderDetails']['netElementHostName']
+    print(f"{taskId} for {hostname}")
+    client.api.execute_task(taskId)
