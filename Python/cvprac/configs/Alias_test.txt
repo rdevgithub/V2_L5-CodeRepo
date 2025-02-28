@@ -1,0 +1,1 @@
+“alias ship show ip interface brief”

@@ -27,6 +27,7 @@ if not exists:
 configlets = client.api.get_configlets(start=0,end=0)
 
 for item in configlets['data']:
+    print(item['name'])
     file = open(directory+'/'+item['name']+'.txt','w')
     file.write(item['config'])
     file.close()
